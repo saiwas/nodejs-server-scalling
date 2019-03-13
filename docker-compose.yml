@@ -1,0 +1,31 @@
+version: '3'
+services:
+  nginx_server:
+    image: nginx:latest
+    container_name: nginx_server
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 3000:80
+    links:
+      - "app1:server1"
+      - "app2:server2"
+      - "app3:server3"
+  app1:
+    image: node:10.15-alpine
+    container_name: app1
+    command: sh -c "node /cluster.js"
+    volumes:
+      - ./cluster.js:/cluster.js
+  app2:
+    image: node:10.15-alpine
+    container_name: app2
+    command: sh -c "node /cluster.js"
+    volumes:
+      - ./cluster.js:/cluster.js
+  app3:
+    image: node:10.15-alpine
+    command: sh -c "node /cluster.js"
+    container_name: app3
+    volumes:
+      - ./cluster.js:/cluster.js
